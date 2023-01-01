@@ -6,11 +6,16 @@
     </div>
     <div class="footer-center">
       <section>
-        <img src="../../public/images/logo-two.svg" alt="">
+        <img src="../../public/images/logo-two.svg" alt="" />
       </section>
     </div>
     <div class="footer-right">
-      <section>footer content here</section>
+      <p>
+        <a href="https://www.instagram.com/earth_to_oven/?hl=en" target="_blank"><font-awesome-icon :icon="['fab', 'instagram']" size="2x" class="icon" /></a>
+      </p>
+      <p>
+        <a href="https://www.facebook.com/earthtoovenltd/" target="_blank"><font-awesome-icon :icon="['fab', 'facebook']" size="2x" class="icon" /> </a>
+      </p>
     </div>
   </div>
 </template>
@@ -33,14 +38,26 @@ export default {
     justify-content: left;
     align-items: flex-start;
     flex-direction: column;
-    p{
+    p {
       margin: 0;
-    a {
-      text-decoration: none;
-      color: var(--text-colour);
-      
+      a {
+        text-decoration: none;
+        color: var(--text-colour);
+      }
     }
   }
+  .footer-right {
+    display: flex;
+    justify-content: left;
+    align-items: flex-start;
+    flex-direction: row;
+    p {
+      margin: 1rem;      
+      a {
+        text-decoration: none;
+        color: var(--text-colour);
+      }
+    }
   }
   .footer-center {
     display: flex;

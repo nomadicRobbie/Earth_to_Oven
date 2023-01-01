@@ -11,14 +11,14 @@
       </div>
       <img src="../../public/images/eto-shop3.png" alt="" />
     </section>
-    <section class="cart-container">
+    <section class="cart">
       <div class="cart-head">
         <h2>Basket</h2>
       </div>
       <router-link to="/basket">
         <div class="cart-total">
           <font-awesome-icon :icon="['fas', 'basket-shopping']" size="2x" class="icon" />
-          <h2>Total ${{  }}</h2>
+          <h2>Total ${{ cart.length }}</h2>
         </div>
       </router-link>
     </section>
@@ -42,6 +42,7 @@
 // import sha1 from "sha1";
 // ShopView.vue
 import { useStore } from 'vuex';
+import { mapState } from 'vuex';
 
 
 export default {
@@ -74,7 +75,7 @@ export default {
           title: "Zingy Pickled Cabbage",
           description: "item description",
           price: 10,
-          Quantity: 1,
+          quantity: 1,
           image: "item image",
         },
         {
@@ -82,7 +83,7 @@ export default {
           title: "Banging Beet Ketchup",
           description: "item description",
           price: 20,
-          Quantity: 1,
+          quantity: 1,
           image: "item image",
         },
         {
@@ -90,7 +91,7 @@ export default {
           title: "Chocolate Brownie",
           description: "item description",
           price: 30,
-          Quantity: 1,
+          quantity: 1,
           image: "item image",
         },
       ],
@@ -98,22 +99,23 @@ export default {
   },
 
   computed: {
+    ...mapState(['cart']),
     cart() {
       return this.$store.state.cart;
     },
   },
   methods: {
-    addToBasket(product) {
-      const foundItem = this.cart.find((item) => item.id === product.id);
+    // addToBasket(product) {
+    //   const foundItem = this.cart.find((item) => item.id === product.id);
 
-      if (foundItem) {
-        foundItem.Quantity++;
-      } else {
-        this.cart.push({ ...product, Quantity: 1 });
-      }
+    //   if (foundItem) {
+    //     foundItem.Quantity++;
+    //   } else {
+    //     this.cart.push({ ...product, Quantity: 1 });
+    //   }
 
-      console.log(this.cart);
-    },
+    //   console.log(this.cart);
+    // },
     
   },
   // watch: {
@@ -173,7 +175,7 @@ export default {
     }
   }
 
-  .cart-container {
+  .cart {
     display: flex;
     flex-direction: row;
     justify-content: space-between;

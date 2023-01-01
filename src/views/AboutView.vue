@@ -155,6 +155,7 @@ export default {
           height: 20rem;
           object-fit: cover;
           border-radius: 20px;
+          margin: 0.5rem;
         }
       }
     }
