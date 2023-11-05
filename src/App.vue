@@ -20,16 +20,18 @@ export default {
 
 <style lang="scss">
 body {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  font-family: 'Apex Mk3-Regular', Helvetica, Arial, sans-serif;
   text-align: center;
   color: var(--action-colour);
   background-color: var(--background-colour);
   margin: 0;
+  h1 {
+    font-family: 'EarthToOvenFont';
+    font-size: 3rem;
+  }
 }
 
-.header {
-  background-color: #fca311;
-}
+
 
 
 </style>

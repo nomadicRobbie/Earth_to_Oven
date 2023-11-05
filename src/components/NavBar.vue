@@ -1,10 +1,10 @@
 <template lang="">
   <div>
     <nav id="nav">
-      <router-link to="/" class="navTag">Home</router-link>
-      <router-link to="/about" class="navTag">About</router-link>
-      <router-link to="/hireUs" class="navTag">Hire Us</router-link>
-      <router-link to="/shop" class="navTag">Shop</router-link>
+      <router-link to="/" class="navTag">Welcome</router-link>
+      <router-link to="/about" class="navTag">Our Story</router-link>
+      <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
+      <router-link to="/shop" class="navTag">Store</router-link>
     </nav>
   </div>
 
@@ -12,10 +12,10 @@
     <p>=</p>
     <transition mode="out-in" name="slide">
       <nav :class="navbarOpen ? 'show-nav' : 'hide-nav'">
-        <router-link to="/" class="navTag">Home</router-link>
-        <router-link to="/about" class="navTag">About</router-link>
-        <router-link to="/hireUs" class="navTag">Hire Us</router-link>
-        <router-link to="/shop" class="navTag">Shop</router-link>
+        <router-link to="/" class="navTag">Welcome</router-link>
+        <router-link to="/about" class="navTag">Our Story</router-link>
+        <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
+        <router-link to="/shop" class="navTag">Store</router-link>
       </nav>
     </transition>
   </div>
@@ -32,7 +32,6 @@ export default {
   methods: {
     handleNavClick() {
       this.navbarOpen = !this.navbarOpen;
-      console.log("clicked");
     },
   },
 };

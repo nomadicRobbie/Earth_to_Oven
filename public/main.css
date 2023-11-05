@@ -1,12 +1,19 @@
 :root {
-  --background-colour: #e5e5e5;
-  --primary-colour: #fca311;
-  --secondary-colour: #14213d;
-  --tertiary-colour: #ffffff;
-  --action-colour: #000000;
+  --background-colour: #fefae0;
+  --primary-colour: #283618;
+  --secondary-colour: #bc6c25;
+  --tertiary-colour: #606c38;
+  --action-colour: #4f3920;
+  --alt-text-colour: #fefae0;
 }
 
+@font-face {
+  font-family: "EarthToOvenFont";
+  src: url(./fonts/converted-fonts/EarthToOvenFont.woff2) format("woff2");
+}
 
-
-
+@font-face {
+  font-family: "Apex Mk3-Regular";
+  src: url(./fonts/converted-fonts-2/Apex\ Mk3-Regular.woff2) format("woff2");
+}
 

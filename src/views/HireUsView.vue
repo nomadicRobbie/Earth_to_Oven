@@ -1,6 +1,6 @@
 <template>
   <div class="hire-us">
-    <h1>This is a Hire Us Page</h1>
+    <h1>Get in touch with us</h1>
     
   </div>
 </template>
