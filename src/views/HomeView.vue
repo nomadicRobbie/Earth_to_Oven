@@ -2,9 +2,7 @@
   <section class="home-container">
     <section class="home-header"></section>
     <section class="home-content">
-      <div id="id" class="class">
-        <img src="../../public/images/logo.svg" alt="eto Logo" />
-      </div>
+      <img src="../../public/images/logo.svg" alt="eto Logo" />
     </section>
     <section class="content-img">
       <img src="../../public/images/awards.svg" alt="" />
@@ -30,6 +28,7 @@ export default {
   background-color: var(--tertiary-colour);
   background-repeat: no-repeat;
   background-blend-mode: multiply;
+  height: 100%;
 
   .home-header {
     display: flex;
@@ -40,12 +39,14 @@ export default {
     height: 50vh;
     align-items: center;
     justify-content: center;
+    padding: 3rem;
   }
   .content-img {
     display: flex;
     justify-content: center;
     align-items: center;
     height: 30vh;
+    padding: 3rem;
     img {
       width: 15%;
     }
@@ -66,7 +67,6 @@ export default {
     .content-img {
       img {
         width: 50%;
-        
       }
     }
   }

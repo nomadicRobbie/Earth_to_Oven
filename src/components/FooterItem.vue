@@ -1,10 +1,11 @@
 <template>
   <div class="footer-container">
     <div class="footer-left">
-      <section>footer content here</section>
+      <router-link to="/tsAndCs">Terms and Conditions</router-link>
+      <router-link to="/PrivacyPolicy">Privacy Policy</router-link>
     </div>
     <div class="footer-center">
-      <section>footer content here</section>
+      <section></section>
     </div>
     <div class="footer-right">
       <section>footer content here</section>
@@ -27,6 +28,8 @@ export default {
   .footer-left {
     display: flex;
     justify-content: left;
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 </style>

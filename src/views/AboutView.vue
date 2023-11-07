@@ -154,7 +154,7 @@ export default {
           width: 20rem;
           height: 20rem;
           object-fit: cover;
-          border-radius: 10px;
+          border-radius: 20px;
         }
       }
     }
@@ -231,7 +231,7 @@ export default {
             width: 10rem;
             height: 10rem;
             object-fit: cover;
-            border-radius: 10px;
+            border-radius: 30px;
             padding: 1rem;
           }
           .no-show {
