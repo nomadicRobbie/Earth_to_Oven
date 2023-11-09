@@ -6,7 +6,8 @@
     <section class="more-content">
       <article class="more-article">
         <div class="more-article-inner">
-          <h3 class="wrap-me">Want to hire us?</h3>
+          <h3 class="wrap-me">Want to hire us or just chat?</h3>
+          <p>Either way, we want to hear from you! <br>So reach out, it'll take two minutes</p>
           <p>{{ content.contentP1 }}</p>
           <img src="../../public/images/eto-trailer6.jpeg" alt="">
         </div>
@@ -43,7 +44,7 @@ export default {
       message: "",
       content: {
         contentP1:
-          "We are available for hire for private events, weddings, festivals, and more. We can provide a range of services from a full catering service to a simple drop off. If you are interested in hiring us, reach out! it'll take two minutes",
+          "We are available for hire for private events, weddings, festivals, and more. We can provide a range of services; full catering service to a simple drop off. If you are interested, reach out! it'll take two minutes",
       },
     };
   },
@@ -84,6 +85,7 @@ export default {
         }
         p {
           font-size: 1.5rem;
+          letter-spacing: .1rem;
         }
         img {
           width: 100%;
@@ -117,7 +119,8 @@ export default {
         height: 2rem;
         margin: 0.5rem 0;
         border: none;
-        border-bottom: 1px solid var(--action-colour);
+        box-shadow: 2px 2px 2px var(--tertiary-colour);
+        border-radius: 5px;
         background-color: transparent;
         color: var(--action-colour);
         font-size: 1.5rem;
@@ -129,7 +132,8 @@ export default {
         height: 10rem;
         margin: 1rem 0;
         border: none;
-        border-bottom: 1px solid var(--action-colour);
+        box-shadow: 2px 2px 2px var(--tertiary-colour);
+        border-radius: 5px;
         background-color: transparent;
         color: var(--action-colour);
         font-size: 1.5rem;
@@ -175,6 +179,9 @@ export default {
           width: 100%;
           button {
             height: 5rem;
+          }
+          input {
+            box-shadow: 2px 2px 2px var(--tertiary-colour);
           }
         }
       // width: 100%;

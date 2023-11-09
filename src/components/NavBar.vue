@@ -1,10 +1,10 @@
 <template lang="">
-  <div>
-    <nav id="nav">
+  <div class="shadow-navbar">
+    <nav :class="isScrolled ? 'nav-shadow' : 'nav'">
       <router-link to="/" class="navTag">Welcome</router-link>
       <router-link to="/about" class="navTag">Our Story</router-link>
       <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
-      <router-link to="/shop" class="navTag">Store</router-link>
+      <router-link to="/shop" class="navTag">Delicatessen</router-link>
     </nav>
   </div>
 
@@ -15,7 +15,7 @@
         <router-link to="/" class="navTag">Welcome</router-link>
         <router-link to="/about" class="navTag">Our Story</router-link>
         <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
-        <router-link to="/shop" class="navTag">Store</router-link>
+        <router-link to="/shop" class="navTag">Delicatessen</router-link>
       </nav>
     </transition>
   </div>
@@ -26,25 +26,68 @@ export default {
   data() {
     return {
       navbarOpen: false,
+      isScrolled: false,
     };
+  },
+  mounted() {
+    window.addEventListener("scroll", this.handleScroll);
   },
 
   methods: {
     handleNavClick() {
       this.navbarOpen = !this.navbarOpen;
     },
+    handleScroll() {
+      if (window.scrollY > 50) {
+        this.isScrolled = true;
+      } else {
+        this.isScrolled = false;
+      }
+    },
   },
 };
 </script>
 <style scoped lang="scss">
-#nav {
-  display: flex;
-  padding: 1rem;
-  justify-content: flex-end;
-  .navTag {
-    text-decoration: none;
-    color: var(--action-colour);
-    padding: 0rem 1rem;
+.shadow-navbar {
+  padding-right: 3rem;
+  .nav {
+    position: fixed;
+    width: 100%;
+    right: 0.1mm;
+    padding: 2rem;
+    display: flex;
+    flex-direction: row;
+    // justify-content: right;
+    justify-content: flex-end;
+    background-color: var(--background-colour);
+    transition: all 250ms ease-in-out;
+
+    .navTag {
+      text-decoration: none;
+      color: var(--action-colour);
+      padding: 0rem 1rem;
+    }
+  }
+  .nav-shadow {
+    display: flex;
+    width: 100%;
+    right: 0.1mm;
+    flex-direction: row;
+    justify-content: right;
+    padding: 2rem;
+    // padding-right: 3rem;
+    justify-content: flex-end;
+    display: flex;
+    box-shadow: 0px 1px 5px var(--action-colour);
+    position: fixed;
+    background-color: var(--background-colour);
+    transition: all 250ms ease-in-out;
+
+    .navTag {
+      text-decoration: none;
+      color: var(--action-colour);
+      padding: 0rem 1rem;
+    }
   }
 }
 
@@ -58,7 +101,10 @@ export default {
 }
 
 @media only screen and (orientation: portrait) {
-  #nav {
+  .nav {
+    display: none;
+  }
+  .shadow-navbar {
     display: none;
   }
 

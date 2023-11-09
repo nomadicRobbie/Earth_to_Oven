@@ -1,9 +1,15 @@
 <template>
   <section class="store-container">
     <section class="store-header">
-      <h1>Welcome to </h1>
-      <h1>Our Delicatessen</h1>
-      <p>Whatever you are lookimg for we can help, you find from our collection of delicious deli delights!</p>
+      <h1>Delicatessen</h1>
+    </section>
+    <section class="store-content">
+      <div class="subtitle">
+        <h2>Whatever you are looking for we can help, you find from our collection of delicious deli delights!</h2>
+        <h3>{{ content.contentP2 }}</h3>
+        <h3><router-link to="/HireUs">Get in touch</router-link></h3>
+        <p>{{ content.contentP3 }}</p>
+      </div>
     </section>
     <section class="store-items">
       <div v-for="item in items" :key="item.id" class="item">
@@ -12,7 +18,6 @@
         {{ item.image }}
       </div>
     </section>
-    <p>we always strive to add more delights to our delicatessen, so come back and check regualarly. because you might be mssing out!</p>
   </section>
 </template>
 
@@ -24,6 +29,11 @@ export default {
   components: {},
   data() {
     return {
+      content: {
+        contentP1: "Whatever you are lookimg for we can help, from our collection of delicious deli delights we give you some of our favourites and of course all of yours!",
+        contentP2: "If there is something you can't find, and think you should be able to find. Reach out it'll take two minutes!",
+        contentP3: "We are always looking to add more delights to our delicatessen, so come back and check regualarly. Because you might be mssing out!",
+      },
       items: [
         {
           id: "item1",
@@ -92,30 +102,51 @@ export default {
   // height: 100vh;
   display: flex;
   flex-direction: column;
+
   p {
     padding: 1rem;
   }
   .store-header {
+    height: 100%;
     margin: 1rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
+    
     p {
       font-size: larger;
+    }
+  }
+
+  .store-content {
+    background-image: url(../../public/images/eto-trailer5.jpeg);
+    background-size: cover;
+    padding: 10rem;
+    // opacity: 0.5;
+    // z-index: -1;
+    .subtitle {
+      display: flex;
+      flex-direction: column;
+      padding: 3rem;
+      background-color: rgba(255, 255, 255, 0.8);
+      border-radius: 10px;
+      a {
+        text-decoration: none;
+      }
     }
   }
   .store-items {
     display: flex;
     flex-wrap: wrap;
-    justify-content: space-evenly;
+    justify-content: center;
     background-color: var(--tertiary-colour);
     .item {
       display: flex;
       flex-direction: column;
       justify-content: left;
       align-items: flex-start;
-      width: calc(33.33% - 10rem);
+      width: calc(50% - 20rem);
       height: 20rem;
       margin: 1rem;
       padding: 1rem;
@@ -126,15 +157,19 @@ export default {
       transition: all 500ms ease-in-out;
     }
     .item:hover {
-        box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
-        background-color: var(--primary-colour);
-        color: var(--alt-text-colour);
-      }
+      box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
+      background-color: var(--primary-colour);
+      color: var(--alt-text-colour);
+    }
   }
 }
 
 @media only screen and (orientation: portrait) {
   .store-container {
+    .store-content {
+      padding: 1rem;
+      background-position: center;
+    }
     .store-items {
       .item {
         width: calc(100% - 2rem);

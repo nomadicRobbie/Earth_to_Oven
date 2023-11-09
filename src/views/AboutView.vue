@@ -1,7 +1,7 @@
 <template>
   <div class="about-container">
     <section class="about-header">
-      <img src="../../public/images/logo-two.svg" alt="" />
+      <!-- <img src="../../public/images/logo-two.svg" alt="" /> -->
       <h1>Who We Are</h1>
     </section>
     <section class="about-content">
@@ -74,7 +74,7 @@ export default {
         contentP2:
           "Our mobile kitchen serves as a hub of innovation, allowing us to remain agile and responsive to the diverse tastes and preferences of our customers. Whether you catch us at a lively music festival or a quiet private event, you can always count on us to deliver a memorable dining experience.",
         contentP3:
-          "But that's not all; for those who wish to continue the Earth to Oven journey, we offer a small kitchen that stocks a wholesale delicatessen. Here, you can take a piece of our culinary artistry home with you, savoring the flavors that have become a hallmark of our brand.",
+          "But that's not all; for those who wish to continue the Earth to Oven journey, we have a small kitchen that creates our Delicatessen Delights. Here, you can enjoy some of our culinary passion at home, savoring the flavors that have become a hallmark Earth to Oven.",
         contentP4:
           "Our journey continues to evolve, and as we move forward, we look forward to serving you wherever you are, ensuring that our passion for food and sustainability remains at the forefront of our mission.",
       },
@@ -95,9 +95,9 @@ export default {
     h1 {
       flex-grow: 1;
     }
-    img {
-      width: 10rem;
-    }
+    // img {
+    //   width: 10rem;
+    // }
   }
   .about-content {
     display: flex;
@@ -105,9 +105,9 @@ export default {
     align-items: center;
     justify-content: center;
     padding: 5rem;
-    background-image: url(../../public/images/alfie-joey1.jpeg);
+    background-image: url(../../public/images/alfie-joey3.jpeg);
     background-size: cover;
-    background-position: center;
+    background-position: bottom;
     background-repeat: no-repeat;
     .about-content-inner {
       background-color: rgba(255, 255, 255, 0.8);
@@ -186,7 +186,7 @@ export default {
       padding: 3rem;
       background-image: url(../../public/images/alfie-joey2.jpeg);
       background-size: cover;
-      background-position: center;
+      background-position: top;
       background-repeat: no-repeat;
       .about-content-inner {
         background-color: rgba(255, 255, 255, 0.8);
