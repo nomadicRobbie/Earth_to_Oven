@@ -1,0 +1,2 @@
+"use strict";(self["webpackChunkbase_template"]=self["webpackChunkbase_template"]||[]).push([[316],{316:(e,a,l)=>{l.r(a),l.d(a,{default:()=>o});var n=l(3396),t=(0,n._)("h1",null,"Privacy Policy",-1),c=[t];function r(e,a,l,t,r,s){return(0,n.wg)(),(0,n.iD)("div",null,c)}const s={name:"PrivacyPolicy"};var u=l(89);const i=(0,u.Z)(s,[["render",r]]),o=i}}]);
+//# sourceMappingURL=316.df3ff606.js.map
