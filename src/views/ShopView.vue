@@ -5,7 +5,7 @@
     </section>
     <section class="store-content">
       <div class="subtitle">
-        <h2>Whatever you are looking for we can help, you find from our collection of delicious deli delights!</h2>
+        <h2>Whatever you are looking for, we can help. We have planty to choose from our collection of delicious deli delights!</h2>
         <h3>{{ content.contentP2 }}</h3>
         <h3><router-link to="/HireUs">Get in touch</router-link></h3>
         <p>{{ content.contentP3 }}</p>
@@ -13,9 +13,11 @@
     </section>
     <section class="store-items">
       <div v-for="item in items" :key="item.id" class="item">
-        <h2>{{ item.title }} {{ item.price }}</h2>
-        <p>{{ item.description }}</p>
-        {{ item.image }}
+        <div class="item-content">
+          <h2>{{ item.title }} {{ item.price }}</h2>
+          <p>{{ item.description }}</p>
+        </div>
+        <div class="item-image">{{ item.image }}</div>
       </div>
     </section>
   </section>
@@ -113,7 +115,7 @@ export default {
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    
+
     p {
       font-size: larger;
     }
@@ -143,18 +145,36 @@ export default {
     background-color: var(--tertiary-colour);
     .item {
       display: flex;
-      flex-direction: column;
-      justify-content: left;
+      flex-direction: row-reverse;
+      justify-content: space-between;
       align-items: flex-start;
       width: calc(50% - 20rem);
       height: 20rem;
       margin: 1rem;
       padding: 1rem;
       border: 1px solid black;
-      border-radius: 5px;
+      border-radius: 20px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
       background-color: var(--background-colour);
       transition: all 500ms ease-in-out;
+      .item-content {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        align-items: flex-end;
+        width: 50%;
+        height: 100%;
+        background-color: var(--tertiaty-colour);
+      }
+      .item-image {
+        display: flex;
+        width: 50%;
+        height: 100%;
+        justify-content: center;
+        align-items: center;
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+      }
     }
     .item:hover {
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
@@ -173,6 +193,22 @@ export default {
     .store-items {
       .item {
         width: calc(100% - 2rem);
+        display: flex;
+        flex-direction: column;
+        .item-content {
+          width: 100%;
+          height: 40%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
+        .item-image {
+          height: 60%;
+          width: 100%;
+          display: flex;
+          justify-content: center;
+          align-items: center;
+        }
       }
     }
   }
