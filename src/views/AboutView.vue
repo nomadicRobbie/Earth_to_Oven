@@ -61,7 +61,7 @@ export default {
     return {
       content: {
         contentP1:
-          "Over the course of 35 years in the hospitality industry, we have embarked on a remarkable journey that has shaped both our past and our future. As we continue on our path, our culinary adventures will only become more exciting and innovative. We remain dedicated to delivering an unparalleled dining experience that tantalizes taste buds, all while nourishing the planet.",
+          "with over a combined 35 years in the hospitality industry, we have embarked on a remarkable journey that has shaped both our past and our future. As we continue on our path, our culinary adventures will only become more exciting and innovative. We remain dedicated to delivering an unparalleled dining experience that tantalizes taste buds, all while nourishing the planet.",
         contentP2: "We have seamlessly blended expertise with an unbridled love of food, and together, we have cultivated a wealth of culinary knowledge and creativity.",
         contentP3:
           "Our journey has been marked by a relentless commitment to pushing the boundaries of street food to new heights. We've evolved, adapted, and constantly strived for innovation in the culinary world. Each bite from our menu reflects our enduring commitment to flavor, quality, and the sheer joy that food can bring.",
