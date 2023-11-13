@@ -14,7 +14,8 @@
     <section class="store-items">
       <div v-for="item in items" :key="item.id" class="item">
         <div class="item-content">
-          <h2>{{ item.title }} {{ item.price }}</h2>
+          <h2>{{ item.title }} </h2>
+          <h3>{{ item.price }}</h3>
           <p>{{ item.description }}</p>
         </div>
         <div class="item-image">{{ item.image }}</div>
@@ -147,11 +148,11 @@ export default {
       display: flex;
       flex-direction: row-reverse;
       justify-content: space-between;
-      align-items: flex-start;
+      align-items: center;
       width: calc(50% - 20rem);
       height: 20rem;
       margin: 1rem;
-      padding: 1rem;
+      padding: 0.5rem;
       border: 1px solid black;
       border-radius: 20px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
@@ -164,7 +165,9 @@ export default {
         align-items: flex-end;
         width: 50%;
         height: 100%;
-        background-color: var(--tertiaty-colour);
+        background-color: rgba(255, 255, 255, 0.8);
+        border-radius: 10px;
+        margin: 0.5rem;
       }
       .item-image {
         display: flex;
@@ -174,12 +177,13 @@ export default {
         align-items: center;
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 10px;
+        margin: 0.5rem;
       }
     }
     .item:hover {
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
       background-color: var(--primary-colour);
-      color: var(--alt-text-colour);
+      // color: var(--alt-text-colour);
     }
   }
 }
