@@ -26,6 +26,7 @@ export default {
   display: flex;
   justify-content: space-evenly;
   height: 20vh;
+  padding: 2rem;
   align-items: center;
   .footer-left {
     display: flex;

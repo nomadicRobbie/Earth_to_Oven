@@ -46,7 +46,8 @@ body {
   }
   p {
     letter-spacing: 1px;
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    // font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-family: "Apex Mk3-Regular", Helvetica, Arial, sans-serif;
     font-weight: 600;
     font-size: x-larger;
   }

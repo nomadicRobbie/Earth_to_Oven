@@ -155,6 +155,7 @@ export default {
         color: var(--alt-text-colour);
         font-size: 1.25rem;
         font-weight: bold;
+        font-family: "Apex Mk3-Regular", Helvetica, Arial, sans-serif;
         padding: 0.5rem;
       }
       p {

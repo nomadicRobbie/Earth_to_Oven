@@ -14,7 +14,7 @@
     <section class="store-items">
       <div v-for="item in items" :key="item.id" class="item">
         <div class="item-content">
-          <h2>{{ item.title }} </h2>
+          <h2>{{ item.title }}</h2>
           <h3>{{ item.price }}</h3>
           <p>{{ item.description }}</p>
         </div>
@@ -123,8 +123,9 @@ export default {
   }
 
   .store-content {
-    background-image: url(../../public/images/eto-trailer5.jpeg);
+    background-image: url(../../public/images/flatbread6.jpeg);
     background-size: cover;
+    background-position: center;
     padding: 10rem;
     // opacity: 0.5;
     // z-index: -1;
@@ -146,11 +147,11 @@ export default {
     background-color: var(--tertiary-colour);
     .item {
       display: flex;
-      flex-direction: row-reverse;
+      flex-direction: row;
       justify-content: space-between;
       align-items: center;
-      width: calc(50% - 20rem);
-      height: 20rem;
+      width: calc(50% - 10rem);
+      // height: 100%;
       margin: 1rem;
       padding: 0.5rem;
       border: 1px solid black;
@@ -163,7 +164,7 @@ export default {
         flex-direction: column;
         justify-content: flex-start;
         align-items: flex-end;
-        width: 50%;
+        width: 100%;
         height: 100%;
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 10px;
@@ -171,7 +172,7 @@ export default {
       }
       .item-image {
         display: flex;
-        width: 50%;
+        width: 100%;
         height: 100%;
         justify-content: center;
         align-items: center;
@@ -196,19 +197,16 @@ export default {
     }
     .store-items {
       .item {
-        width: calc(100% - 2rem);
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
+        width: calc(100% - 2rem);
+        // height: 100%;
         .item-content {
-          width: 100%;
-          height: 40%;
           display: flex;
           justify-content: center;
           align-items: center;
         }
         .item-image {
-          height: 60%;
-          width: 100%;
           display: flex;
           justify-content: center;
           align-items: center;
