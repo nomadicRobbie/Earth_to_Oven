@@ -51,6 +51,9 @@ body {
     font-weight: 600;
     font-size: x-larger;
   }
+  button {
+    font-family: "Apex Mk3-Regular", Helvetica, Arial, sans-serif;
+  }
   .content {
     padding-top: 5rem;
   }

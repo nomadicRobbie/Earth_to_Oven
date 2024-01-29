@@ -5,101 +5,120 @@
     </section>
     <section class="store-content">
       <div class="subtitle">
-        <h2>Whatever you are looking for, we can help. We have planty to choose from our collection of delicious deli delights!</h2>
-        <h3>{{ content.contentP2 }}</h3>
-        <h3><router-link to="/HireUs">Get in touch</router-link></h3>
+        <h2>Whatever you are looking for, we can help. We have plenty to choose from our collection of delicious deli delights!</h2>
+        <h3>{{ content.contentP2 }} <router-link to="/hireUs">Get in Touch.</router-link></h3>
         <p>{{ content.contentP3 }}</p>
       </div>
+      <img src="../../public/images/eto-shop3.png" alt="" />
+    </section>
+    <section class="cart-container">
+      <div class="cart-head">
+        <h2>Basket</h2>
+      </div>
+      <router-link to="/basket">
+        <div class="cart-total">
+          <font-awesome-icon :icon="['fas', 'basket-shopping']" size="2x" class="icon" />
+          <h2>Total ${{ cartTotal }}</h2>
+        </div>
+      </router-link>
     </section>
     <section class="store-items">
-      <div v-for="item in items" :key="item.id" class="item">
-        <div class="item-content">
-          <h2>{{ item.title }}</h2>
-          <h3>{{ item.price }}</h3>
-          <p>{{ item.description }}</p>
+      <div v-for="product in products" :key="product.id" class="item">
+        <div class="inner-item">
+          <div class="item-content">
+            <h2>{{ product.title }}</h2>
+            <h3>${{ product.price }}</h3>
+            <p>{{ product.description }}</p>
+          </div>
+          <div class="item-image">{{ product.image }}</div>
         </div>
-        <div class="item-image">{{ item.image }}</div>
+        <button @click.stop.prevent="addToBasket(product)">Add to Basket</button>
       </div>
     </section>
   </section>
 </template>
 
 <script>
-// @ is an alias to /src
+// import sha1 from "sha1";
 
 export default {
   name: "ShopView",
   components: {},
   data() {
     return {
+      // cart: [],
+      // cartTotal: 0,
       content: {
         contentP1: "Whatever you are lookimg for we can help, from our collection of delicious deli delights we give you some of our favourites and of course all of yours!",
-        contentP2: "If there is something you can't find, and think you should be able to find. Reach out it'll take two minutes!",
+        contentP2: "If there is something you can't find, and think you should be able to find.",
         contentP3: "We are always looking to add more delights to our delicatessen, so come back and check regualarly. Because you might be mssing out!",
       },
-      items: [
+      products: [
         {
-          id: "item1",
-          title: "item title 1",
+          id: 1,
+          title: "Zingy Pickled Cabbage",
           description: "item description",
-          price: "$00",
+          price: 10,
+          Quantity: 1,
           image: "item image",
         },
         {
-          id: "item2",
-          title: "item title 2",
+          id: 2,
+          title: "Banging Beet Ketchup",
           description: "item description",
-          price: "$00",
+          price: 20,
+          Quantity: 1,
           image: "item image",
         },
         {
-          id: "item3",
-          title: "item title 3",
+          id: 3,
+          title: "Chocolate Brownie",
           description: "item description",
-          price: "$00",
-          image: "item image",
-        },
-        {
-          id: "item4",
-          title: "item title 4",
-          description: "item description",
-          price: "$00",
-          image: "item image",
-        },
-        {
-          id: "item5",
-          title: "item title 5",
-          description: "item description",
-          price: "$00",
-          image: "item image",
-        },
-        {
-          id: "item6",
-          title: "item title 6",
-          description: "item description",
-          price: "$00",
-          image: "item image",
-        },
-        {
-          id: "item7",
-          title: "item title 7",
-          description: "item description",
-          price: "$00",
-          image: "item image",
-        },
-        {
-          id: "item8",
-          title: "item title 8",
-          description: "item description",
-          price: "$00",
+          price: 30,
+          Quantity: 1,
           image: "item image",
         },
       ],
     };
   },
+
+  computed: {
+    cart() {
+      return this.$store.state.cart;
+    },
+  },
+  methods: {
+    // addToBasket(product) {
+    //   const foundItem = this.cart.find((item) => item.id === product.id);
+
+    //   if (foundItem) {
+    //     foundItem.Quantity++;
+    //   } else {
+    //     this.cart.push({ ...product, Quantity: 1 });
+    //   }
+
+    //   console.log(this.cart);
+    // },
+    incrementQuantity(productId) {
+      this.$store.commit('incrementQuantity', productId);
+    },
+  },
+  // watch: {
+  //   cart: {
+  //     handler() {
+  //       this.cartTotal = 0;
+  //       this.cart.forEach((item) => {
+  //         let itemTotal = item.price * item.Quantity;
+  //         this.cartTotal += itemTotal;
+  //         console.log(this.cartTotal);
+  //       });
+  //     },
+  //     deep: true,
+  //   },
+  // },
 };
 </script>
-<style lang="scss">
+<style scoped lang="scss">
 .store-container {
   width: 100%;
   // height: 100vh;
@@ -111,33 +130,64 @@ export default {
   }
   .store-header {
     height: 100%;
-    margin: 1rem;
+    // margin-top: 5rem;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: center;
-
+    h1 {
+      padding: 3rem;
+    }
     p {
       font-size: larger;
     }
   }
 
   .store-content {
-    background-image: url(../../public/images/flatbread6.jpeg);
+    display: flex;
+    flex-direction: row;
     background-size: cover;
     background-position: center;
-    padding: 10rem;
-    // opacity: 0.5;
-    // z-index: -1;
+    padding: 3rem;
     .subtitle {
       display: flex;
       flex-direction: column;
       padding: 3rem;
-      background-color: rgba(255, 255, 255, 0.8);
       border-radius: 10px;
       a {
         text-decoration: none;
       }
+    }
+  }
+
+  .cart-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    padding: 0 1rem;
+    background-color: var(--primary-colour);
+    .cart-head {
+      color: var(--alt-text-colour);
+      height: 100%;
+    }
+    a {
+      display: flex;
+      justify-content: flex-start;
+      align-items: center;
+      color: var(--alt-text-colour);
+      text-decoration: none;
+      padding: 1rem;
+      border-radius: 5px;
+      h2 {
+        margin: 0 0 1rem 0;
+      }
+      .icon {
+        margin: 1rem 0;
+      }
+    }
+    .cart-total {
+      color: var(--alt-text-colour);
     }
   }
   .store-items {
@@ -146,19 +196,31 @@ export default {
     justify-content: center;
     background-color: var(--tertiary-colour);
     .item {
+      .inner-item {
+        display: flex;
+        margin: 0.5rem;
+        justify-content: center;
+      }
       display: flex;
-      flex-direction: row;
+      flex-direction: column;
       justify-content: space-between;
-      align-items: center;
-      width: calc(50% - 10rem);
+      align-items: space-between;
+      width: calc(40% - 15rem);
       // height: 100%;
       margin: 1rem;
-      padding: 0.5rem;
+      // padding: 0.5rem;
       border: 1px solid black;
       border-radius: 20px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
       background-color: var(--background-colour);
       transition: all 500ms ease-in-out;
+      button {
+        width: 50%;
+        margin: 0.5rem;
+        padding: 0.5rem;
+        background-color: var(--tertiary-colour);
+        border-radius: 10px;
+      }
       .item-content {
         display: flex;
         flex-direction: column;
@@ -168,7 +230,7 @@ export default {
         height: 100%;
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 10px;
-        margin: 0.5rem;
+        // margin: 0.5rem;
       }
       .item-image {
         display: flex;
@@ -178,7 +240,7 @@ export default {
         align-items: center;
         background-color: rgba(255, 255, 255, 0.8);
         border-radius: 10px;
-        margin: 0.5rem;
+        // margin: 0.5rem;
       }
     }
     .item:hover {

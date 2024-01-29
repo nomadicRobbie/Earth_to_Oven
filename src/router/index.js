@@ -32,6 +32,11 @@ const routes = [
     name: "PrivacyPolicy",
     component: () => import("@/views/PrivacyPolicy.vue"),
   },
+  {
+    path: "/basket",
+    name: "basket",
+    component: () => import("@/components/Cart.vue"),
+  },
   
 ];
 
