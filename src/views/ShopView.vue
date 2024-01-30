@@ -18,7 +18,7 @@
       <router-link to="/basket">
         <div class="cart-total">
           <font-awesome-icon :icon="['fas', 'basket-shopping']" size="2x" class="icon" />
-          <h2>Total ${{ cartTotal }}</h2>
+          <h2>Total ${{  }}</h2>
         </div>
       </router-link>
     </section>
@@ -32,7 +32,7 @@
           </div>
           <div class="item-image">{{ product.image }}</div>
         </div>
-        <button @click.stop.prevent="addToBasket(product)">Add to Basket</button>
+        <button @click.stop.prevent="addToCart(product)">Add to Basket</button>
       </div>
     </section>
   </section>
@@ -40,10 +40,25 @@
 
 <script>
 // import sha1 from "sha1";
+// ShopView.vue
+import { useStore } from 'vuex';
+
 
 export default {
   name: "ShopView",
   components: {},
+  setup() {
+    const store = useStore();
+
+    const addToCart = (product) => {
+      store.commit('addToCart', product);
+    };
+
+    const incrementQuantity = (productId) => {
+      store.commit('incrementQuantity', productId);
+    };
+    return { addToCart, incrementQuantity}
+  },
   data() {
     return {
       // cart: [],
@@ -88,20 +103,18 @@ export default {
     },
   },
   methods: {
-    // addToBasket(product) {
-    //   const foundItem = this.cart.find((item) => item.id === product.id);
+    addToBasket(product) {
+      const foundItem = this.cart.find((item) => item.id === product.id);
 
-    //   if (foundItem) {
-    //     foundItem.Quantity++;
-    //   } else {
-    //     this.cart.push({ ...product, Quantity: 1 });
-    //   }
+      if (foundItem) {
+        foundItem.Quantity++;
+      } else {
+        this.cart.push({ ...product, Quantity: 1 });
+      }
 
-    //   console.log(this.cart);
-    // },
-    incrementQuantity(productId) {
-      this.$store.commit('incrementQuantity', productId);
+      console.log(this.cart);
     },
+    
   },
   // watch: {
   //   cart: {

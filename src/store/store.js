@@ -1,9 +1,6 @@
-// // store.js
-// import Vue from 'vue';
-// import Vuex from 'vuex';
+// store.js
 import { createStore } from 'vuex'
 
-// Vue.use(Vuex);
 
 export default createStore({
   state: {
