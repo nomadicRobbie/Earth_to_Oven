@@ -18,7 +18,9 @@
       <router-link to="/basket">
         <div class="cart-total">
           <font-awesome-icon :icon="['fas', 'basket-shopping']" size="2x" class="icon" />
-          <h2>Total ${{ cart.length }}</h2>
+          <h2 v-if="cartQuantity === 1">{{ cartQuantity }} item in your cart</h2>
+          <h2 v-else-if="cartQuantity > 1">{{ cartQuantity }} items in your cart</h2>
+          <h2 v-else>Your cart is empty</h2>
         </div>
       </router-link>
     </section>
@@ -27,10 +29,13 @@
         <div class="inner-item">
           <div class="item-content">
             <h2>{{ product.title }}</h2>
-            <h3>${{ product.price }}</h3>
+            <h2>£{{ product.price }}</h2>
             <p>{{ product.description }}</p>
           </div>
-          <div class="item-image">{{ product.image }}</div>
+          <div class="images">
+            <img :src="product.image" alt="" class="item-image" />
+            <img :src="product.image" alt="" class="item-image" />
+          </div>
         </div>
         <button @click.stop.prevent="addToCart(product)">Add to Basket</button>
       </div>
@@ -41,9 +46,8 @@
 <script>
 // import sha1 from "sha1";
 // ShopView.vue
-import { useStore } from 'vuex';
-import { mapState } from 'vuex';
-
+import { useStore } from "vuex";
+import { mapState } from "vuex";
 
 export default {
   name: "ShopView",
@@ -52,13 +56,10 @@ export default {
     const store = useStore();
 
     const addToCart = (product) => {
-      store.commit('addToCart', product);
+      store.commit("addToCart", product);
     };
 
-    const incrementQuantity = (productId) => {
-      store.commit('incrementQuantity', productId);
-    };
-    return { addToCart, incrementQuantity}
+    return { addToCart };
   },
   data() {
     return {
@@ -76,7 +77,7 @@ export default {
           description: "item description",
           price: 10,
           quantity: 1,
-          image: "item image",
+          image: "/images/imageplaceholder.jpg",
         },
         {
           id: 2,
@@ -84,7 +85,7 @@ export default {
           description: "item description",
           price: 20,
           quantity: 1,
-          image: "item image",
+          image: "/images/imageplaceholder.jpg",
         },
         {
           id: 3,
@@ -92,45 +93,23 @@ export default {
           description: "item description",
           price: 30,
           quantity: 1,
-          image: "item image",
+          image: "/images/imageplaceholder.jpg",
         },
       ],
     };
   },
 
   computed: {
-    ...mapState(['cart']),
+    ...mapState(["cart"]),
     cart() {
       return this.$store.state.cart;
     },
-  },
-  methods: {
-    // addToBasket(product) {
-    //   const foundItem = this.cart.find((item) => item.id === product.id);
 
-    //   if (foundItem) {
-    //     foundItem.Quantity++;
-    //   } else {
-    //     this.cart.push({ ...product, Quantity: 1 });
-    //   }
-
-    //   console.log(this.cart);
-    // },
-    
+    cartQuantity() {
+      return this.$store.getters.cartQuantity;
+    },
   },
-  // watch: {
-  //   cart: {
-  //     handler() {
-  //       this.cartTotal = 0;
-  //       this.cart.forEach((item) => {
-  //         let itemTotal = item.price * item.Quantity;
-  //         this.cartTotal += itemTotal;
-  //         console.log(this.cartTotal);
-  //       });
-  //     },
-  //     deep: true,
-  //   },
-  // },
+  methods: {},
 };
 </script>
 <style scoped lang="scss">
@@ -211,19 +190,12 @@ export default {
     justify-content: center;
     background-color: var(--tertiary-colour);
     .item {
-      .inner-item {
-        display: flex;
-        margin: 0.5rem;
-        justify-content: center;
-      }
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: space-between;
-      width: calc(40% - 15rem);
-      // height: 100%;
+      width: calc(50% - 15rem);
       margin: 1rem;
-      // padding: 0.5rem;
       border: 1px solid black;
       border-radius: 20px;
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
@@ -236,26 +208,40 @@ export default {
         background-color: var(--tertiary-colour);
         border-radius: 10px;
       }
-      .item-content {
+      .inner-item {
         display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        align-items: flex-end;
-        width: 100%;
-        height: 100%;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        // margin: 0.5rem;
-      }
-      .item-image {
-        display: flex;
-        width: 100%;
-        height: 100%;
-        justify-content: center;
-        align-items: center;
-        background-color: rgba(255, 255, 255, 0.8);
-        border-radius: 10px;
-        // margin: 0.5rem;
+        margin: 0.5rem;
+        justify-content: space-evenly;
+
+        .item-content {
+          display: flex;
+          flex-direction: column;
+          justify-content: flex-start;
+          align-items: flex-end;
+          width: 50%;
+          height: 100%;
+          background-color: rgba(255, 255, 255, 0.8);
+          border-radius: 10px;
+          h2, p {
+            text-align: right;
+          }
+        }
+
+        .images {
+          display: flex;
+          flex-direction: column;
+          width: 50%;
+          .item-image {
+            display: flex;
+            width: 100%;
+            height: 50%;
+            justify-content: center;
+            align-items: center;
+            background-color: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            margin: 0.25rem;
+          }
+        }
       }
     }
     .item:hover {
@@ -275,7 +261,7 @@ export default {
     .store-items {
       .item {
         display: flex;
-        flex-direction: row;
+        flex-direction: column;
         width: calc(100% - 2rem);
         // height: 100%;
         .item-content {

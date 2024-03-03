@@ -5,6 +5,7 @@
       <router-link to="/about" class="navTag">Our Story</router-link>
       <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
       <router-link to="/shop" class="navTag">Delicatessen</router-link>
+      <router-link to="/meals" class="navTag">Meals</router-link>
     </nav>
   </div>
 
@@ -16,6 +17,7 @@
         <router-link to="/about" class="navTag">Our Story</router-link>
         <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
         <router-link to="/shop" class="navTag">Delicatessen</router-link>
+        <router-link to="/meals" class="navTag">Meals</router-link>
       </nav>
     </transition>
   </div>

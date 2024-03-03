@@ -1,6 +1,5 @@
 // store.js
-import { createStore } from 'vuex'
-
+import { createStore } from "vuex";
 
 export default createStore({
   state: {
@@ -8,27 +7,82 @@ export default createStore({
   },
   mutations: {
     // Define mutations to modify the cart state
-    addToCart(state, product) {
-      state.cart.push(product);
-      console.log("adding item to cart", state.cart);
+    loadCart(state, cart) {
+      state.cart = cart;
     },
+
     incrementQuantity(state, productId) {
-      const item = state.cart.find(item => item.id === productId);
-      if (item) {
-        item.quantity++;
+      const product = state.cart.find((item) => item.id === productId);
+      if (product) {
+        product.quantity++;
       }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+    decrementQuantity(state, productId) {
+      const product = state.cart.find((item) => item.id === productId);
+      if (product.quantity === 1) {
+        state.cart.splice(state.cart.indexOf(product), 1);
+      } else { 
+          product.quantity--;
+      }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+
+    addToCart(state, product) {
+      const existingProduct = state.cart.find((item) => item.id === product.id);
+      if (existingProduct) {
+        existingProduct.quantity++;
+        console.log("incrementing quantity", state.cart);
+      } else {
+        state.cart.push({
+          ...product,
+          quantity: 1,
+        });
+        console.log("adding item to cart", state.cart);
+      }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
+    },
+
+    removeFromCart(state, productId) {
+      const index = state.cart.find((item) => item.id === productId);
+      if (index !== -1) {
+        state.cart.splice(index, 1);
+      }
+      localStorage.setItem("cart", JSON.stringify(state.cart));
     },
     // Add more mutations as needed
   },
   getters: {
-    getCart: {
-      getCart: state => {
-        return state.cart;
+    getCart: (state) => {
+      return state.cart;
+    },
+
+    cartQuantity: (state) => {
+      return state.cart.reduce((total, item) => {
+        return total + item.quantity;
+      }, 0);
+    },
+
+    cartTotal: (state) => {
+      return state.cart.reduce((total, item) => {
+        return total + item.price * item.quantity;
+      }, 0);
+    },
+  },
+
+  actions: {
+    // Action to load the cart from local storage
+    loadCartFromLocalStorage({ commit }) {
+      const storedCart = localStorage.getItem("cart");
+      if (storedCart) {
+        commit("loadCart", JSON.parse(storedCart));
       }
     },
-    // Define getters to access the cart state
-    cartTotal(state) {
-      return state.cart.length > 0;
+    incrementQuantity({ commit }, productId) {
+      commit("incrementQuantity", productId);
     },
-  },// Add more getters as needed
+    decrementQuantity({ commit }, productId) {
+      commit("decrementQuantity", productId);
+    },
+  },
 });

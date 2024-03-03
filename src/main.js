@@ -11,6 +11,8 @@ import { faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';
 import { faPhone, faEdit, faPlus, faSave, faTrash, faBars, faSort, faMinusCircle, faPlusCircle, faEnvelope, faCaretDown, faShoppingCart, faShop, faShoppingBasket, faCircleArrowLeft, faCircleArrowRight, faTrashCan} from "@fortawesome/free-solid-svg-icons";
 library.add( faFacebook, faInstagram, faPhone, faEdit, faPlus, faSave, faTrash, faBars, faSort, faMinusCircle, faPlusCircle, faEnvelope, faCaretDown, faShoppingCart, faShop, faShoppingBasket, faCircleArrowLeft, faCircleArrowRight, faTrashCan);
 
+store.dispatch('loadCartFromLocalStorage');
+
 const app = createApp(App);
 
 app.component("font-awesome-icon", FontAwesomeIcon);
