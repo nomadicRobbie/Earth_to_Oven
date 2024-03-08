@@ -57,7 +57,8 @@ export default {
   methods: {
     select(item) {
       this.staging.push(item);
-      this.saveToLocalStorage();
+          this.saveToLocalStorage();
+      console.log(this.staging.length)
     },
     increment(index) {
       this.staging[index].quantity++;
