@@ -24,7 +24,7 @@
               <h2>{{ product.quantity }}</h2>
               <button @click.stop.prevent="decrementQuantity(product.id)">-</button>
             </div>
-            <a @click.stop.prevent="removeFromCart"><font-awesome-icon :icon="['fas', 'trash']" size="xl" class="icon" /></a>
+            <a @click.stop.prevent="removeFromCart"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
           </div>
         </div>
       </div>

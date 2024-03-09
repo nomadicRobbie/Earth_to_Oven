@@ -69,4 +69,18 @@ export default {
     }
   }
 }
+@media only screen and (orientation: portrait) {
+  .footer-container {
+    display: flex;
+    .footer-left, .footer-right {
+      display: flex;
+      flex-direction: column;
+    }
+    .footer-center {
+      img {
+        width: 10rem;
+      }
+    }
+  }
+}
 </style>
