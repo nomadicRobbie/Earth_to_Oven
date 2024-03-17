@@ -3,11 +3,33 @@
     <div class="cart-title">
       <h2>Your Cart</h2>
       <h2>
-        Cart Total <span>£{{ cartTotal }}</span>
+        Cart Total <span>£{{ cartTotalWithPackages }}</span>
       </h2>
     </div>
     <template v-if="cart.length > 0">
       <div class="cart-head">
+        <div v-if="state.mealCart.length > 0" class="cart-item">
+          <div v-if="stagingTotal <= 4" class="cart-info">
+            <h2>Base package. {{ stagingTotal }} meals at £9.25.</h2>
+            <h2>Total £{{ stagingTotal * 9.25 }}</h2>
+          </div>
+          <div v-if="stagingTotal >= 5 && stagingTotal < 10" class="cart-info">
+            <h2>Scaled package. {{ stagingTotal }} meals at £9.00.</h2>
+            <h2>Total £{{ stagingTotal * 9.0 }}</h2>
+          </div>
+          <div v-if="stagingTotal >= 10 && stagingTotal < 20" class="cart-info">
+            <h2>RX package package. {{ stagingTotal }} meals at £8.50.</h2>
+            <h2>Total £{{ stagingTotal * 8.5 }}</h2>
+          </div>
+          <div v-if="stagingTotal > 20" class="cart-info">
+            <h2>RX+ package package. {{ stagingTotal }} meals at £8.00.</h2>
+            <h2>Total £{{ stagingTotal * 8.0 }}</h2>
+          </div>
+          <div class="remove-quantity">
+            <a @click="$store.commit('clearMealCart')"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
+          </div>
+        </div>
+
         <div v-for="product in cart" :key="product.id" class="cart-item">
           <div class="cart-img">
             <img :src="product.image" alt="" />
@@ -24,7 +46,7 @@
               <h2>{{ product.quantity }}</h2>
               <button @click.stop.prevent="decrementQuantity(product.id)">-</button>
             </div>
-            <a @click.stop.prevent="removeFromCart"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
+            <a @click.stop.prevent="removeFromCart(product.id)"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
           </div>
         </div>
       </div>
@@ -39,7 +61,9 @@ import { mapState } from "vuex";
 export default {
   name: "cartItem",
   data() {
-    return {};
+    return {
+      
+    };
   },
 
   created() {
@@ -47,13 +71,50 @@ export default {
   },
 
   computed: {
+    // cartTotalWithPackages() {
+    //   if (this.stagingTotal <= 4) {
+    //     return this.stagingTotal * 9.25 + this.cartTotal;
+    //   } else if (this.stagingTotal >= 5 && this.stagingTotal < 10) {
+    //     return this.stagingTotal * 9.0 + this.cartTotal;
+    //   } else if (this.stagingTotal >= 10 && this.stagingTotal < 20) {
+    //     return this.stagingTotal * 8.5 + this.cartTotal;
+    //   } else if (this.stagingTotal > 20) {
+    //     return this.stagingTotal * 8.0 + this.cartTotal;
+    //   } else if (this.stagingTotal === 0) {
+    //     return this.cartTotal;
+    //   } else {
+    //     return 0;
+    //   }
+    // },
+    
+    upToFour() {
+      return this.stagingTotal * 9.25;
+    },
+    scaledPackage() {
+      return this.stagingTotal * 9.0;
+    },
+    rxPackage() {
+      return this.stagingTotal * 8.5;
+    },
+    rxPlusPackage() {
+      return this.stagingTotal * 8.0;
+    },
     cartTotal() {
       return this.$store.getters?.cartTotal;
     },
     cart() {
       return this.$store.getters.getCart;
     },
-    ...mapState(["cart"]),
+    mealCart() {
+      return this.$store.getters.getMealCart;
+    },
+    stagingTotal() {
+      return this.$store.getters.getStagingTotal;
+    },
+    cartTotalWithPackages() {
+      return this.$store.getters.getCartTotalWithPackages;
+    },
+    ...mapState(["cart", "mealCart"]),
   },
 
   methods: {
@@ -68,9 +129,7 @@ export default {
     },
   },
 
-  mounted() {
-    console.log("Cart in component", this.cart, this.cart.length, this.total);
-  },
+  mounted() {},
 };
 </script>
 <style lang="scss">

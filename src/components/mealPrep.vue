@@ -1,10 +1,39 @@
 <template>
   <section>
-    <div>
+    <div class="meal-head">
       <h1>FRESH WEEKLY</h1>
       <h1>MEAL PREP</h1>
       <h2>New menu every month</h2>
       <h2>All meals are high in protein, convenient, freezable, ethical, nutritionally balanced and delicious.</h2>
+      <div class="pricing-container">
+        <h2 class="pricing-title">package pricing</h2>
+        <div class="package-pricing">
+          <div>
+            <h3>
+              UP TO 4 MEALS<br />
+              £9.25 EACH
+            </h3>
+          </div>
+          <div>
+            <h3>
+              5 to 9 meals<br />
+              £9.00 EACH
+            </h3>
+          </div>
+          <div>
+            <h3>
+              10 to 19 meals<br />
+              £8.50 EACH
+            </h3>
+          </div>
+          <div>
+            <h3>
+              20 meals or more<br />
+              £8.00 EACH
+            </h3>
+          </div>
+        </div>
+      </div>
     </div>
   </section>
   <section class="meal-main">
@@ -33,21 +62,31 @@
           </div>
         </div>
         <div class="meal-total">
-          <div v-if="this.stagingTotal >= 5 && this.stagingTotal <= 9">You have {{ stagingTotal }} meals. This will be £9.00 a meal.</div>
-          <div v-else-if="this.stagingTotal >= 10 && this.stagingTotal <= 19">You have {{ stagingTotal }} meals. This will be £8.50 a meal.</div>
-          <div v-else-if="this.stagingTotal >= 20">You have {{ stagingTotal }} meals. This will be £8.00 a meal.</div>
-          <div v-else>You have {{ statingTotal }} meals. This will be £9.25 a meal.</div>
+          <div v-if="this.stagingSubTotal >= 5 && this.stagingSubTotal <= 9">You have {{ stagingSubTotal }} meals. This will be £9.00 a meal.</div>
+          <div v-else-if="this.stagingSubTotal >= 10 && this.stagingSubTotal <= 19">You have {{ stagingSubTotal }} meals. This will be £8.50 a meal.</div>
+          <div v-else-if="this.stagingSubTotal >= 20">You have {{ stagingSubTotal }} meals. This will be £8.00 a meal.</div>
+          <div v-else-if="this.stagingSubTotal < 5 && this.stagingSubTotal > 0">You have {{ stagingSubTotal }} meals. This will be £9.25 a meal.</div>
+          <div v-else>Select a meal.</div>
         </div>
         <div>Your sub-total is £{{ this.subTotal }}</div>
       </div>
       <div class="adding">
-        <button>Add to Basket</button>
+        <button
+          @click.stop.prevent="
+            addMealsToCart();
+            updateStagingTotal();
+            clearMealCart();
+          ">
+          Add to Basket
+        </button>
       </div>
     </div>
   </section>
 </template>
 <script>
+import { mapMutations, mapState } from "vuex";
 export default {
+  name: "mealPrep",
   data() {
     return {
       staging: [],
@@ -69,8 +108,9 @@ export default {
   },
 
   computed: {
-    stagingTotal() {
-      console.log(this.stagingTotal);
+    ...mapState(["mealCart", "stagingTotal"]),
+
+    stagingSubTotal() {
       return this.staging.reduce((total, item) => total + item.quantity, 0);
     },
 
@@ -78,14 +118,14 @@ export default {
       let scaled = 9;
       let rx = 8.5;
       let rxPlus = 8;
-      if (this.stagingTotal >= 5 && this.stagingTotal <= 9) {
-        return this.stagingTotal * scaled;
-      } else if (this.stagingTotal >= 10 && this.stagingTotal <= 19) {
-        return this.stagingTotal * rx;
-      } else if (this.stagingTotal >= 20) {
-        return this.stagingTotal * rxPlus;
-      } else if (this.stagingTotal < 5) {
-        return this.stagingTotal * 9.25;
+      if (this.stagingSubTotal >= 5 && this.stagingSubTotal <= 9) {
+        return this.stagingSubTotal * scaled;
+      } else if (this.stagingSubTotal >= 10 && this.stagingSubTotal <= 19) {
+        return this.stagingSubTotal * rx;
+      } else if (this.stagingSubTotal >= 20) {
+        return this.stagingSubTotal * rxPlus;
+      } else if (this.stagingSubTotal < 5) {
+        return this.stagingSubTotal * 9.25;
       } else {
         return 0;
       }
@@ -93,16 +133,30 @@ export default {
   },
 
   methods: {
+    ...mapMutations(["addToMealCart", "calculateStagingTotal"]),
+
+    clearMealCart() {
+      this.staging = [];
+      localStorage.removeItem("staging");
+    },
+
+    updateStagingTotal() {
+      this.$store.commit("calculateStagingTotal");
+    },
+
+    addMealsToCart() {
+      this.$store.commit("addToMealCart", this.staging);
+    },
+
     select(item) {
       this.staging.push(item);
       this.saveToLocalStorage(item);
-      console.log(this.staging.length);
+      console.log(this.staging);
     },
 
     increment(index) {
       this.staging[index].quantity++;
       this.saveToLocalStorage(index);
-      console.log(this.staging.length);
     },
 
     decrement(index) {
@@ -137,6 +191,34 @@ export default {
 };
 </script>
 <style lang="scss">
+.meal-head {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  .pricing-container {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    background-color: var(--tertiary-colour);
+    color: var(--alt-text-colour);
+    width: 90%;
+    margin: 2rem;
+    border-radius: 10px;
+    .pricing-title {
+      margin: 0.5rem;
+    }
+    .package-pricing {
+      display: flex;
+      flex-direction: row;
+      align-items: space-evenly;
+      justify-content: space-evenly;
+      h3 {
+        margin: 0.5rem;
+      }
+    }
+  }
+}
 .meal-main {
   display: flex;
   flex-direction: row;

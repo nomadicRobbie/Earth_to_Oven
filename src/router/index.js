@@ -42,7 +42,6 @@ const routes = [
     name: "meals",
     component: () => import("@/components/mealPrep.vue"),
   },
-  
 ];
 
 const router = createRouter({

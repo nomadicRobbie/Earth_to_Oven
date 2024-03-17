@@ -63,8 +63,6 @@ export default {
   },
   data() {
     return {
-      // cart: [],
-      // cartTotal: 0,
       content: {
         contentP1: "Whatever you are lookimg for we can help, from our collection of delicious deli delights we give you some of our favourites and of course all of yours!",
         contentP2: "If there is something you can't find, and think you should be able to find.",

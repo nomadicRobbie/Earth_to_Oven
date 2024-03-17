@@ -4,8 +4,9 @@
       <router-link to="/" class="navTag">Welcome</router-link>
       <router-link to="/about" class="navTag">Our Story</router-link>
       <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
-      <router-link to="/shop" class="navTag">Delicatessen</router-link>
-      <router-link to="/meals" class="navTag">Meals</router-link>
+      <router-link to="/shop" class="navTag">Shop</router-link>
+      <router-link to="/meals" class="navTag">Meal Prep</router-link>
+      <router-link to="/basket" class="navTag"><font-awesome-icon :icon="['fas', 'basket-shopping']" class="icon" /></router-link>
     </nav>
   </div>
 
@@ -16,8 +17,9 @@
         <router-link to="/" class="navTag">Welcome</router-link>
         <router-link to="/about" class="navTag">Our Story</router-link>
         <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
-        <router-link to="/shop" class="navTag">Delicatessen</router-link>
-        <router-link to="/meals" class="navTag">Meals</router-link>
+        <router-link to="/shop" class="navTag">Shop</router-link>
+        <router-link to="/meals" class="navTag">Meal Prep</router-link>
+        <router-link to="/basket" class="navTag"><font-awesome-icon :icon="['fas', 'basket-shopping']" class="icon" /></router-link>
       </nav>
     </transition>
   </div>
