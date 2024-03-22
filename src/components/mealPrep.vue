@@ -39,46 +39,37 @@
   <section class="meal-main">
     <div class="choose">
       <h3>Menu options:</h3>
-      <div v-for="main in mains" :key="main.id" class="mains">
-        <h4>{{ main.title }}</h4>
-        <p>{{ main.description }}</p>
-        <button @click.stop.prevent="select(main)">Select</button>
-      </div>
-      <div v-for="side in sides" :key="side.id" class="sides">
-        <h4>{{ side.title }}</h4>
-        <p>{{ side.description }}</p>
-        <button @click.stop.prevent="select(side)">Select</button>
+      <div v-for="meal in meals" :key="meal.id" class="mains">
+        <h4>{{ meal.title }}</h4>
+        <p>{{ meal.description }}</p>
+        <button
+          @click.stop.prevent="
+            addToMealCart(meal);
+            updateMealCartTotal();
+          ">
+          Select
+        </button>
       </div>
     </div>
     <div class="staging">
       <div class="selection">
         <h3>Your selection:</h3>
-        <div v-for="(item, index) in staging" :key="item.id">
+        <div v-for="item in mealCart" :key="item.id">
           <h4>{{ item.title }}</h4>
           <p>{{ item.description }}</p>
           <div class="remove-increment">
-            <div class="inc-dec"><button @click.stop.prevent="decrement(index)">-</button> {{ item.quantity }} <button @click.stop.prevent="increment(index)">+</button></div>
-            <a @click.stop.prevent="removeFromStaging(index)"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
+            <div class="inc-dec"><button @click.stop.prevent="decrementQuantity(item.id); updateMealCartTotal(); saveMealCartToLocalStorage()">-</button> {{ item.quantity }} <button @click.stop.prevent="incrementQuantity(item.id); updateMealCartTotal(); saveMealCartToLocalStorage()">+</button></div>
+            <a @click.stop.prevent="removeFromCart(item.id); updateMealCartTotal(); saveMealCartToLocalStorage()"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
           </div>
         </div>
         <div class="meal-total">
-          <div v-if="this.stagingSubTotal >= 5 && this.stagingSubTotal <= 9">You have {{ stagingSubTotal }} meals. This will be £9.00 a meal.</div>
-          <div v-else-if="this.stagingSubTotal >= 10 && this.stagingSubTotal <= 19">You have {{ stagingSubTotal }} meals. This will be £8.50 a meal.</div>
-          <div v-else-if="this.stagingSubTotal >= 20">You have {{ stagingSubTotal }} meals. This will be £8.00 a meal.</div>
-          <div v-else-if="this.stagingSubTotal < 5 && this.stagingSubTotal > 0">You have {{ stagingSubTotal }} meals. This will be £9.25 a meal.</div>
+          <div v-if="this.mealCartSubTotal >= 5 && this.mealCartSubTotal <= 9">You have {{ mealCartSubTotal }} meals. This will be £9.00 a meal.</div>
+          <div v-else-if="this.mealCartSubTotal >= 10 && this.mealCartSubTotal <= 19">You have {{ mealCartSubTotal }} meals. This will be £8.50 a meal.</div>
+          <div v-else-if="this.mealCartSubTotal >= 20">You have {{ mealCartSubTotal }} meals. This will be £8.00 a meal.</div>
+          <div v-else-if="this.mealCartSubTotal < 5 && this.mealCartSubTotal > 0">You have {{ mealCartSubTotal }} meals. This will be £9.25 a meal.</div>
           <div v-else>Select a meal.</div>
         </div>
         <div>Your sub-total is £{{ this.subTotal }}</div>
-      </div>
-      <div class="adding">
-        <button
-          @click.stop.prevent="
-            addMealsToCart();
-            updateStagingTotal();
-            clearMealCart();
-          ">
-          Add to Basket
-        </button>
       </div>
     </div>
   </section>
@@ -90,42 +81,39 @@ export default {
   data() {
     return {
       staging: [],
-      mains: [
+      meals: [
         { id: 1, title: "Beef", description: "description here", quantity: 1 },
         { id: 2, title: "Chicken", description: "description here", quantity: 1 },
         { id: 3, title: "Lamb", description: "description here", quantity: 1 },
         { id: 4, title: "Pork", description: "description here", quantity: 1 },
         { id: 5, title: "Vege", description: "description here", quantity: 1 },
       ],
-      sides: [
-        { id: 1, title: "Rice", description: "description here", quantity: 1 },
-        { id: 2, title: "Potato", description: "description here", quantity: 1 },
-        { id: 3, title: "Vege", description: "description here", quantity: 1 },
-        { id: 4, title: "Salad", description: "description here", quantity: 1 },
-        { id: 5, title: "Pasta", description: "description here", quantity: 1 },
-      ],
     };
   },
 
   computed: {
-    ...mapState(["mealCart", "stagingTotal"]),
+    runCheck() {
+      return console.log("this is the meal cart:", this.mealCart, "this is the meal cart total:", this.mealCartTotal);
+    },
 
-    stagingSubTotal() {
-      return this.staging.reduce((total, item) => total + item.quantity, 0);
+    ...mapState(["mealCart", "mealCartTotal"]),
+
+    mealCartSubTotal() {
+      return this.mealCart.reduce((total, item) => total + item.quantity, 0);
     },
 
     subTotal() {
       let scaled = 9;
       let rx = 8.5;
       let rxPlus = 8;
-      if (this.stagingSubTotal >= 5 && this.stagingSubTotal <= 9) {
-        return this.stagingSubTotal * scaled;
-      } else if (this.stagingSubTotal >= 10 && this.stagingSubTotal <= 19) {
-        return this.stagingSubTotal * rx;
-      } else if (this.stagingSubTotal >= 20) {
-        return this.stagingSubTotal * rxPlus;
-      } else if (this.stagingSubTotal < 5) {
-        return this.stagingSubTotal * 9.25;
+      if (this.mealCartSubTotal >= 5 && this.mealCartSubTotal <= 9) {
+        return this.mealCartSubTotal * scaled;
+      } else if (this.mealCartSubTotal >= 10 && this.mealCartSubTotal <= 19) {
+        return this.mealCartSubTotal * rx;
+      } else if (this.mealCartSubTotal >= 20) {
+        return this.mealCartSubTotal * rxPlus;
+      } else if (this.mealCartSubTotal < 5) {
+        return this.mealCartSubTotal * 9.25;
       } else {
         return 0;
       }
@@ -133,60 +121,25 @@ export default {
   },
 
   methods: {
-    ...mapMutations(["addToMealCart", "calculateStagingTotal"]),
+    ...mapMutations([
+      "addToMealCart",
+      "calculateMealCartTotal",
+      "incrementQuantity",
+      "decrementQuantity",
+      "removeFromCart",
+      "saveMealCartToLocalStorage",
+      "updateCartTotalWithPackages",
+    ]),
 
-    clearMealCart() {
-      this.staging = [];
-      localStorage.removeItem("staging");
+    updateMealCartTotal() {
+      this.$store.commit("calculateMealCartTotal");
+      this.$store.commit("updateCartTotalWithPackages");
     },
 
-    updateStagingTotal() {
-      this.$store.commit("calculateStagingTotal");
-    },
-
-    addMealsToCart() {
-      this.$store.commit("addToMealCart", this.staging);
-    },
-
-    select(item) {
-      this.staging.push(item);
-      this.saveToLocalStorage(item);
-      console.log(this.staging);
-    },
-
-    increment(index) {
-      this.staging[index].quantity++;
-      this.saveToLocalStorage(index);
-    },
-
-    decrement(index) {
-      if (this.staging[index].quantity == 1) {
-        this.removeFromStaging(index);
-        this.saveToLocalStorage(index);
-      } else {
-        this.staging[index].quantity--;
-        this.saveToLocalStorage();
-      }
-    },
-
-    removeFromStaging(index) {
-      this.staging.splice(index, 1);
-      this.saveToLocalStorage(index);
-    },
-
-    saveToLocalStorage() {
-      localStorage.setItem("staging", JSON.stringify(this.staging));
-    },
-
-    getFromLocalStorage() {
-      if (localStorage.getItem("staging")) {
-        this.staging = JSON.parse(localStorage.getItem("staging"));
-      }
-    },
   },
 
   mounted() {
-    this.getFromLocalStorage();
+    
   },
 };
 </script>

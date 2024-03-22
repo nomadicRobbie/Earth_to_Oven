@@ -3,31 +3,42 @@
     <div class="cart-title">
       <h2>Your Cart</h2>
       <h2>
-        Cart Total <span>£{{ cartTotalWithPackages }}</span>
+        Total <span>£{{ cartTotalWithPackages }}</span>
       </h2>
     </div>
-    <template v-if="cart.length > 0">
+    <template v-if="this.mealCart.length > 0 || this.cart.length > 0">
       <div class="cart-head">
-        <div v-if="state.mealCart.length > 0" class="cart-item">
-          <div v-if="stagingTotal <= 4" class="cart-info">
-            <h2>Base package. {{ stagingTotal }} meals at £9.25.</h2>
-            <h2>Total £{{ stagingTotal * 9.25 }}</h2>
+        <div v-if="this.mealCart.length > 0" class="cart-item">
+          <img src="../../public/images/imageplaceholder.jpg" alt="" class="cart-img" />
+          <div v-if="this.mealCartTotal <= 4" class="cart-info">
+            <h2>Base package.</h2>
+            <h2>{{ this.mealCartTotal }} meals at £9.25.</h2>
+            <h2>Total £{{ this.mealCartTotal * 9.25 }}</h2>
           </div>
-          <div v-if="stagingTotal >= 5 && stagingTotal < 10" class="cart-info">
-            <h2>Scaled package. {{ stagingTotal }} meals at £9.00.</h2>
-            <h2>Total £{{ stagingTotal * 9.0 }}</h2>
+          <div v-if="this.mealCartTotal >= 5 && this.mealCartTotal < 10" class="cart-info">
+            <h2>Scaled package.</h2>
+            <h2>{{ this.mealCartTotal }} meals at £9.00.</h2>
+            <h2>Total £{{ this.mealCartTotal * 9.0 }}</h2>
           </div>
-          <div v-if="stagingTotal >= 10 && stagingTotal < 20" class="cart-info">
-            <h2>RX package package. {{ stagingTotal }} meals at £8.50.</h2>
-            <h2>Total £{{ stagingTotal * 8.5 }}</h2>
+          <div v-if="this.mealCartTotal >= 10 && this.mealCartTotal < 20" class="cart-info">
+            <h2>RX package package.</h2>
+            <h2>{{ this.mealCartTotal }} meals at £8.50.</h2>
+            <h2>Total £{{ this.mealCartTotal * 8.5 }}</h2>
           </div>
-          <div v-if="stagingTotal > 20" class="cart-info">
-            <h2>RX+ package package. {{ stagingTotal }} meals at £8.00.</h2>
-            <h2>Total £{{ stagingTotal * 8.0 }}</h2>
+          <div v-if="this.mealCartTotal > 20" class="cart-info">
+            <h2>RX+ package package.</h2>
+            <h2>{{ this.mealCartTotal }} meals at £8.00.</h2>
+            <h2>Total £{{ this.mealCartTotal * 8.0 }}</h2>
+          </div>
+          <div class="change-selection">
+            <button>
+              <router-link to="/meals" class="navTag">change your selection</router-link>
+            </button>
           </div>
           <div class="remove-quantity">
-            <a @click="$store.commit('clearMealCart')"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
+            <a @click.stop.prevent="resetMealCart()"><font-awesome-icon :icon="['fas', 'trash-can']" size="xl" class="icon" /></a>
           </div>
+          
         </div>
 
         <div v-for="product in cart" :key="product.id" class="cart-item">
@@ -41,7 +52,7 @@
             <h2>£{{ product.price }}</h2>
           </div>
           <div class="remove-quantity">
-            <div>
+            <div class="inc-dec">
               <button @click.stop.prevent="incrementQuantity(product.id)">+</button>
               <h2>{{ product.quantity }}</h2>
               <button @click.stop.prevent="decrementQuantity(product.id)">-</button>
@@ -52,18 +63,16 @@
       </div>
     </template>
     <template v-else>
-      <h2>It's empty, add something.</h2>
+      <h2 class="empty-cart">It's empty, add something.</h2>
     </template>
   </div>
 </template>
 <script>
-import { mapState } from "vuex";
+import { mapState, mapGetters, mapMutations } from "vuex";
 export default {
   name: "cartItem",
   data() {
-    return {
-      
-    };
+    return {};
   },
 
   created() {
@@ -71,61 +80,48 @@ export default {
   },
 
   computed: {
-    // cartTotalWithPackages() {
-    //   if (this.stagingTotal <= 4) {
-    //     return this.stagingTotal * 9.25 + this.cartTotal;
-    //   } else if (this.stagingTotal >= 5 && this.stagingTotal < 10) {
-    //     return this.stagingTotal * 9.0 + this.cartTotal;
-    //   } else if (this.stagingTotal >= 10 && this.stagingTotal < 20) {
-    //     return this.stagingTotal * 8.5 + this.cartTotal;
-    //   } else if (this.stagingTotal > 20) {
-    //     return this.stagingTotal * 8.0 + this.cartTotal;
-    //   } else if (this.stagingTotal === 0) {
-    //     return this.cartTotal;
-    //   } else {
-    //     return 0;
-    //   }
-    // },
-    
     upToFour() {
-      return this.stagingTotal * 9.25;
+      return this.mealCartTotal * 9.25;
     },
     scaledPackage() {
-      return this.stagingTotal * 9.0;
+      return this.mealCartTotal * 9.0;
     },
     rxPackage() {
-      return this.stagingTotal * 8.5;
+      return this.mealCartTotal * 8.5;
     },
     rxPlusPackage() {
-      return this.stagingTotal * 8.0;
+      return this.mealCartTotal * 8.0;
     },
-    cartTotal() {
-      return this.$store.getters?.cartTotal;
-    },
-    cart() {
-      return this.$store.getters.getCart;
-    },
-    mealCart() {
-      return this.$store.getters.getMealCart;
-    },
-    stagingTotal() {
-      return this.$store.getters.getStagingTotal;
-    },
-    cartTotalWithPackages() {
-      return this.$store.getters.getCartTotalWithPackages;
-    },
-    ...mapState(["cart", "mealCart"]),
+
+    ...mapGetters(["cartTotal", "getCart", "getMealCart"]),
+
+    ...mapState(["cart", "cartTotal", "mealCart", "mealCartTotal", "cartTotalWithPackages"]),
   },
 
   methods: {
+    ...mapMutations(["calculateCartTotal", "clearMealCart", "updateCartTotalWithPackages"]),
+
     removeFromCart(productId) {
       this.$store.commit("removeFromCart", productId);
+      this.$store.commit("calculateCartTotal");
+      this.$store.commit("updateCartTotalWithPackages");
     },
     incrementQuantity(productId) {
       this.$store.dispatch("incrementQuantity", productId);
+      console.log(this.cartTotal);
+      this.$store.commit("calculateCartTotal");
+      this.$store.commit("updateCartTotalWithPackages");
     },
     decrementQuantity(productId) {
       this.$store.dispatch("decrementQuantity", productId);
+      console.log(this.cartTotal);
+      this.$store.commit("calculateCartTotal");
+      this.$store.commit("updateCartTotalWithPackages");
+    },
+    resetMealCart() {
+      this.$store.commit("clearMealCart");
+      this.$store.commit("calculateCartTotal");
+      this.$store.commit("updateCartTotalWithPackages");
     },
   },
 
@@ -137,7 +133,7 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  height: 90vh;
+  height: 100%;
   padding: 1rem 1rem;
   .cart-title {
     display: flex;
@@ -162,18 +158,24 @@ export default {
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    padding: 0.5rem;
     background-color: rgba(255, 255, 255, 0.7);
     color: var(--text-colour);
     margin: 0.5rem;
-    border-radius: 10px;
+    border-radius: 15px;
     width: 70%;
+    img {
+      width: 12rem;
+      border-radius: 7px;
+      margin: 0.25rem;
+    }
     .cart-img {
       display: flex;
       flex-direction: row;
       img {
-        width: 10rem;
+        width: 12rem;
         margin: 0.25rem;
-        border-radius: 5px;
+        border-radius: 7px;
       }
     }
     .remove-quantity {
@@ -181,22 +183,43 @@ export default {
       flex-direction: row;
       align-items: center;
       justify-content: space-evenly;
-      width: 15%;
+      .inc-dec {
+        padding: 1rem;
+      }
       h2 {
         margin: 0;
       }
       .icon {
-        color: var(--primary-colour);
+        color: var(--text-colour);
+        padding: 2rem;
       }
       button {
-        background-color: var(--primary-colour);
+        background-color: var(--tertiary-colour);
         color: var(--alt-text-colour);
         border: none;
         border-radius: 5px;
-        padding: 0.5rem;
+        padding: 0.5rem 0.5rem;
         margin: 0.5rem;
-        box-shadow: 2px 2px 2px var(--tertiary-colour);
+        width: 2rem;
+        box-shadow: 2px 2px 2px var(--primary-colour);
+        font-size: x-large;
       }
+    }
+    .change-selection {
+      display: flex;
+      button {
+        padding: 1.5rem;
+        box-shadow: 2px 2px 2px var(--primary-colour);
+        border-radius: 7px;
+        border: none;
+        background-color: var(--tertiary-colour);
+        a {
+        color: var(--alt-text-colour);
+        text-decoration: none;
+        font-size: medium;
+      }
+      }
+      
     }
     .cart-info {
       display: flex;
@@ -211,6 +234,9 @@ export default {
   }
   .cart-total {
     color: var(--alt-text-colour);
+  }
+  .empty-cart {
+    height: 90vh;
   }
 }
 </style>

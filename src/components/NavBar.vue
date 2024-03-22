@@ -6,7 +6,7 @@
       <router-link to="/hireUs" class="navTag">Get in Touch</router-link>
       <router-link to="/shop" class="navTag">Shop</router-link>
       <router-link to="/meals" class="navTag">Meal Prep</router-link>
-      <router-link to="/basket" class="navTag"><font-awesome-icon :icon="['fas', 'basket-shopping']" class="icon" /></router-link>
+      <router-link to="/basket" class="navTag"><font-awesome-icon :icon="['fas', 'basket-shopping']" class="icon" /> <span v-if="cartQuantity">{{ cartQuantity }}</span></router-link>
     </nav>
   </div>
 
@@ -25,6 +25,7 @@
   </div>
 </template>
 <script>
+import { mapGetters } from "vuex";
 export default {
   name: "NavBar",
   data() {
@@ -35,6 +36,10 @@ export default {
   },
   mounted() {
     window.addEventListener("scroll", this.handleScroll);
+  },
+
+  computed: {
+    ...mapGetters(["cartQuantity"]),
   },
 
   methods: {

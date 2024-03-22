@@ -1,7 +1,7 @@
 <template>
   <section class="store-container">
     <section class="store-header">
-      <h1>Delicatessen</h1>
+      <h1>Shop</h1>
     </section>
     <section class="store-content">
       <div class="subtitle">
@@ -25,6 +25,9 @@
       </router-link>
     </section>
     <section class="store-items">
+      <div class="item-heading">
+        <h1>delicatessen</h1>
+      </div>
       <div v-for="product in products" :key="product.id" class="item">
         <div class="inner-item">
           <div class="item-content">
@@ -37,7 +40,40 @@
             <img :src="product.image" alt="" class="item-image" />
           </div>
         </div>
-        <button @click.stop.prevent="addToCart(product)">Add to Basket</button>
+        <button
+          @click.stop.prevent="
+            addToCart(product);
+            calculateCartTotal();
+            updateCartTotalWithPackages();
+          ">
+          Add to Basket
+        </button>
+      </div>
+    </section>
+    <section class="store-items">
+      <div class="item-heading">
+        <h1>Merchandise</h1>
+      </div>
+      <div v-for="item in merch" :key="item.id" class="item">
+        <div class="inner-item">
+          <div class="item-content">
+            <h2>{{ item.title }}</h2>
+            <h2>£{{ item.price }}</h2>
+            <p>{{ item.description }}</p>
+          </div>
+          <div class="images">
+            <img :src="item.image" alt="" class="item-image" />
+            <img :src="item.image" alt="" class="item-image" />
+          </div>
+        </div>
+        <button
+          @click.stop.prevent="
+            addToCart(item);
+            calculateCartTotal();
+            updateCartTotalWithPackages();
+          ">
+          Add to Basket
+        </button>
       </div>
     </section>
   </section>
@@ -46,21 +82,13 @@
 <script>
 // import sha1 from "sha1";
 // ShopView.vue
-import { useStore } from "vuex";
-import { mapState } from "vuex";
+
+import { mapState, mapMutations, mapGetters } from "vuex";
 
 export default {
   name: "ShopView",
   components: {},
-  setup() {
-    const store = useStore();
 
-    const addToCart = (product) => {
-      store.commit("addToCart", product);
-    };
-
-    return { addToCart };
-  },
   data() {
     return {
       content: {
@@ -72,23 +100,81 @@ export default {
         {
           id: 1,
           title: "Zingy Pickled Cabbage",
-          description: "item description",
-          price: 10,
+          description: "600 grams",
+          price: 6.5,
           quantity: 1,
           image: "/images/imageplaceholder.jpg",
         },
         {
           id: 2,
           title: "Banging Beet Ketchup",
-          description: "item description",
+          description: "250 grams",
+          price: 4.5,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 3,
+          title: "White Chocolate Chunk Fudge Brownie",
+          description: "approx 120 grams",
+          price: 3.2,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 4,
+          title: "Caramel Chunk Flapjack",
+          description: "approx 130 grams",
+          price: 3.2,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 5,
+          title: "Chunky Wholesome Scotch Broth",
+          description: "Winter veg. British split peas. Pearled barley. (16oz)",
+          price: 5.5,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+      ],
+      merch: [
+        {
+          id: 1,
+          title: "SnapBack Cap",
+          description: "Black and Biege with logo",
+          price: 25,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 2,
+          title: "Camper low profile 5 panel cap",
+          description: "Black with logo",
           price: 20,
           quantity: 1,
           image: "/images/imageplaceholder.jpg",
         },
         {
           id: 3,
-          title: "Chocolate Brownie",
-          description: "item description",
+          title: "Baseball cap",
+          description: "Black with logo",
+          price: 15,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 4,
+          title: "White T-shirt",
+          description: "Branded With pig",
+          price: 30,
+          quantity: 1,
+          image: "/images/imageplaceholder.jpg",
+        },
+        {
+          id: 5,
+          title: "White T-shirt",
+          description: "Branded with Radish",
           price: 30,
           quantity: 1,
           image: "/images/imageplaceholder.jpg",
@@ -98,16 +184,13 @@ export default {
   },
 
   computed: {
-    ...mapState(["cart"]),
-    cart() {
-      return this.$store.state.cart;
-    },
+    ...mapState(["cart", "cartTotal"]),
 
-    cartQuantity() {
-      return this.$store.getters.cartQuantity;
-    },
+    ...mapGetters(["cartQuantity"]),
   },
-  methods: {},
+  methods: {
+    ...mapMutations(["calculateCartTotal", "addToCart", "updateCartTotalWithPackages"]),
+  },
 };
 </script>
 <style scoped lang="scss">
@@ -162,6 +245,9 @@ export default {
     .cart-head {
       color: var(--alt-text-colour);
       height: 100%;
+      h2 {
+        font-size: xx-large;
+      }
     }
     a {
       display: flex;
@@ -184,15 +270,25 @@ export default {
   }
   .store-items {
     display: flex;
+    flex-direction: column;
+    align-items: center;
     flex-wrap: wrap;
     justify-content: center;
     background-color: var(--tertiary-colour);
+    .item-heading {
+      border-top: 2rem solid var(--alt-text-colour);
+      width: 100%;
+      color: var(--alt-text-colour);
+      h1 {
+        margin-top: 5rem;
+      }
+    }
     .item {
       display: flex;
       flex-direction: column;
       justify-content: space-between;
       align-items: space-between;
-      width: calc(50% - 15rem);
+      width: calc(60% - 10rem);
       margin: 1rem;
       border: 1px solid black;
       border-radius: 20px;
@@ -210,17 +306,21 @@ export default {
         display: flex;
         margin: 0.5rem;
         justify-content: space-evenly;
+        align-items: center;
 
         .item-content {
           display: flex;
           flex-direction: column;
           justify-content: flex-start;
           align-items: flex-end;
+          padding: 0.5rem;
           width: 50%;
           height: 100%;
-          background-color: rgba(255, 255, 255, 0.8);
+          // background-color: rgba(255, 255, 255, 0.8);
           border-radius: 10px;
-          h2, p {
+          h2,
+          p {
+            padding: 0;
             text-align: right;
           }
         }
@@ -245,7 +345,7 @@ export default {
     .item:hover {
       box-shadow: 0 0 5px 0 rgba(0, 0, 0, 0.5);
       background-color: var(--primary-colour);
-      // color: var(--alt-text-colour);
+      color: var(--alt-text-colour);
     }
   }
 }
